@@ -9,11 +9,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <!-- <link rel="stylesheet" type="text/css" media="screen" href="main.css"> -->
 </head>
 
 <body>
-
     <div container="col-md-12">
         <div class="jumbotron">
             <h1 id="titleText" class="display-4">Anytime is Train Time</h1>
@@ -22,7 +22,6 @@
         <div container="col-md-12">
             <div class="card">
                 <div class="card-body">
-
 
                     <div id='tableWrapper'>
                         <table class="table table-bordered">
@@ -35,6 +34,12 @@
                                     <th scope="col">Next Arrival</th>
                                     <th scope="col">Minute Away</th>
                                 </tr>
+                                <tr>
+                                    <td id="train_name-display"></td>
+                                    <td id="destination-display"></td>
+                                    <td id="time-display"></td>
+                                    <td id="frequency-display"></td>
+                                </tr>
                             </thead>
                         </table>
 
@@ -45,105 +50,39 @@
 
                         <div class="form-group">
 
-                            <label for="name">Train Name</label>
-                            <input id="name-input" type="text" class="form-control">
+                            <label for="train_name">Train Name</label>
+                            <input id="train_name-input" type="text" class="form-control">
                         </div>
 
                         <div class="form-group">
-                            <label for="roleInput">Destination</label>
-                            <input id="role-input" type="text" class="form-control">
-                        </div>
-
-
-                        <div class="form-group">
-                            <label for="start-date">First Train Time (HH:MM -military time)</label>
-                            <input id="start-date-input" type="text" class="form-control">
+                            <label for="destination">Destination</label>
+                            <input id="destination-input" type="text" class="form-control">
                         </div>
 
 
                         <div class="form-group">
-                            <label id="salary" for="salary">Frequency(min)</label>
-                            <input type="text" id="salary-input" class="form-control">
+                            <label for="time">First Train Time (HH:MM -military time)</label>
+                            <input id="time-input" type="text" class="form-control">
                         </div>
 
 
+                        <div class="form-group">
+                            <label id="frequency" for="frequency">Frequency(min)</label>
+                            <input type="text" id="frequency-input" class="form-control">
+                        </div>
 
-                        <button id="addBtn" type="submit" class="btn btn-success">Submit</button>
-                        <button id="clearBtn" type="submit" class="btn btn-warning">Clear</button>
+                        <button id="addBtn clearBtn" type="submit" class="btn btn-success">Submit</button>
+                        
 
                     </form>
                 </div>
             </div>
         </div>
-        <script src="https://www.gstatic.com/firebasejs/5.9.2/firebase.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/5.9.3/firebase.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-        <script>
-            $(document).ready(function () {
-                var config = {
-                    apiKey: "AIzaSyBv0AMJDhcbeNyLAoAPP7nCPgvLOoNVlII",
-                    authDomain: "classactivities-45c55.firebaseapp.com",
-                    databaseURL: "https://classactivities-45c55.firebaseio.com",
-                    projectId: "classactivities-45c55",
-                    storageBucket: "classactivities-45c55.appspot.com",
-                    messagingSenderId: "331973508417"
-                };
-                firebase.initializeApp(config);
+        <script src="assets/javascript/app.js"></script>
 
-
-                var database = firebase.database();
-
-                $("#addBtn").on('click', function (event) {
-                    event.preventDefault();
-                    let name = $("#name-input").val().trim();
-                    let role = $("#role-input").val().trim()
-                    let sdate = $("#start-date-input").val().trim()
-                    let sal = $("#salary-input").val().trim()
-
-                    database.ref().push({
-                        name: name,
-                        role: role,
-                        startDate: sdate,
-                        salary: sal
-
-                    });
-
-                })
-
-                database.ref().on('child_added', function (snapshot) {
-                    buildRow(snapshot);
-                });
-
-                // database.ref().orderByChild("dateAdded").limitToLast(1).on('child_added',function(snapshot){    
-                // buildRow(snapshot);
-                // });
-
-
-                function buildRow(snapshot) {
-
-
-                    var newRow = $("<tr>");
-                    var nameCol = $("<td>");
-                    nameCol.text(snapshot.val().name);
-                    newRow.append(nameCol);
-
-                    var roleCol = $("<td>");
-                    roleCol.text(snapshot.val().role);
-                    newRow.append(roleCol);
-
-                    var sdCol = $("<td>");
-                    sdCol.text(snapshot.val().startDate);
-                    newRow.append(sdCol);
-
-                    var salCol = $("<td>");
-                    salCol.text(snapshot.val().salary);
-                    newRow.append(salCol);
-                    newRow.appendTo("#empTable");
-
-
-                }
-            });
-        </script>
-
+    </div>
 
 </body>
 
